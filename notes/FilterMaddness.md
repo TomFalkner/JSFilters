@@ -7,32 +7,33 @@ Has the following methods:
 filter(BufferedImage src, BufferedImage dst);
 
 //This calculates the output bounds for given input bounds
-protected void transformSpace(Rectangle rect);
+    protected void transformSpace(Rectangle rect);
 
 //And an abstract method to actually filter the pixels.
-protected abstract int[] filterPixels(int width, int height, int[] inPixels, Rectangle transformedSpace);
+    protected abstract int[] filterPixels(int width, int height, int[] inPixels, Rectangle transformedSpace);
 
 WarpFilter.
-• Takes two warp girds. How are those defined?
-• A point in the Source Grid moves to its counterpart in the destination grid.
++ Takes two warp girds. How are those defined?
++ A point in the Source Grid moves to its counterpart in the destination grid.
 
 Constructor:
 WarpFilter(WarpGrid sourceGrid, WarpGrid destGrid);
 
 Other methods:
-setSourceGrid(WarpGrid sourceGrid);
-getSourceGrid()
-setDestGrid()
-setFrames(int frames)
-getFrames()
-• Special method for morphing (otherwise it's just warping)
-setMorphImage(BufferedImage morphImage)
-getMorphImage
-setTime(float time)
-getTime()
-transformSpace(Rectangle r)
+    setSourceGrid(WarpGrid sourceGrid);
+    getSourceGrid()
+    setDestGrid()
+    setFrames(int frames)
+    getFrames()
+Special method for morphing (otherwise it's just warping)
 
-int[] filterPixels(int width, int height, int[] inPixels, Rectangle transformedSpace )
+    setMorphImage(BufferedImage morphImage)
+    getMorphImage
+    setTime(float time)
+    getTime()
+    transformSpace(Rectangle r)
+
+    int[] filterPixels(int width, int height, int[] inPixels, Rectangle transformedSpace )
 
 So it's complex but.. really its just translating one grid to another.
 
@@ -92,10 +93,39 @@ Kernals.
 Located in java.awt.image
 The Kernal class defines a matrix that describes how a specified pixel and its surrounding pixels affect the value computed for the pixel's position in the output image of a filtering operation. 
 
+Identity matrix for kernals:
+0 0 0
+0 1 0
+0 0 0
+
+
+
 The X origin and the Y origin indicate the kernal matrix element that corresponds to the pixel position for which an output value is being computed
 
 A Kernal is also known as convolution matrix:
 http://en.wikipedia.org/wiki/Kernel_%28image_processing%29
+
+The values of a given pixel in the output image are calculated by multiplying each kernal value by the corresponding input image pixel values.
+
+Pseudo code:
+for each *image row* in *output image*:
+    for each *pixel* in *image row*:
+        set *accumulator* to zero
+        
+        for each *kernel row* in *kernel*:
+            for each *element* in *kernel row*:
+                if *element position* corresponding to *pixel position* then
+                    multiply *element value* corresponding to *pixel value*
+                    add result to accumulator
+                endif
+        set output image pixel to accumulator
+
+Edge Handling can be a problem. You can either:
+Extend - the nearest border pixels as far as necessary.
+Wrap - take image values from the opposite edge
+Crop - skip any pixel that would require values from beyond the edge
+
+Normalization - divide each element in the kernel by the sum of all the absolute values of the elements in the kernel.
 
 
 
