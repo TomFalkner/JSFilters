@@ -12,7 +12,7 @@ describe("Convolve Filter", function() {
 
     it("Should create a new filter", function() {
 
-        var newFilter = JSFilters.image.ConvolveFilter.create();
+        var newFilter = JSFilters.image.ConvolveFilter.factory();
 
         expect(newFilter).toBeDefined();
     });

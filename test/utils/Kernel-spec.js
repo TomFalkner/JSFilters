@@ -35,6 +35,7 @@ describe("Kernel", function() {
         it("Should ensure the matrix is the proper size", function() {
 
             var badMatrix = [1, 2, 3];
+            //Have to use bind or else the exception is not caught.
             expect(JSFilters.utils.Kernel.factory.bind(null, testWidth, testHeight, badMatrix)).toThrow();
         });
     });
