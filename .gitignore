@@ -1,3 +1,6 @@
 .idea/*
+test/visual/build/*
+node_modules/*
+build/*
 *~
 *.swp
