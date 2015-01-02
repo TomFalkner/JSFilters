@@ -7,6 +7,34 @@
     ImageMath.QUARTER_PI = Math.PI / 4.0;
     ImageMath.TWO_PI = Math.PI * 2.0;
 
+    // Javascript really hates integers.
+    // http://www.2ality.com/2012/02/js-integers.html
+
+    ImageMath.toInteger = function toInteger(x) {
+        var result = Number(x);
+        return result < 0 ? Math.ceil(result) : Math.floor(result);
+    };
+
+    ImageMath.modulo = function modulo(a, b) {
+        return a - Math.floor(a/b) * b;
+    };
+
+    ImageMath.toUint32 = function toUint32(x) {
+        return x >>> 0;
+        //return ImageMath.modulo(ImageMath.toInteger(x), Math.pow(2, 32));
+    };
+
+    ImageMath.toInt32 = function toInt32(x) {
+        return x >> 0;
+        //var uint32 = ImageMath.toUint32(x);
+        //
+        //if (uint32 >= Math.pow(2, 31)) {
+        //    return uint32 - Math.pow(2, 32);
+        //} else {
+        //    return uint32;
+        //}
+    };
+
     /* Apply a bias to a number in the unit interval, moving numbers towards 0 or 1
      * according to the bias parameter
      * @param a the number to bias

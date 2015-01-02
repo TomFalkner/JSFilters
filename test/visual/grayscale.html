@@ -13,32 +13,36 @@
     <script src="build/jsfilters.js"></script>
     <script>
         var canvas = document.getElementById('canvas'),
-            context = canvas.getContext('2d'),
-            source = document.getElementById('source');
+            source = document.getElementById('source'),
+            bufferedImage = JSFilters.image.BufferedImage.factory(canvas);
 
-        context.drawImage(source, 0, 0);
+        bufferedImage.drawImage(source);
+
         testFilter();
 
         function testFilter() {
-            var imageData = context.getImageData(0, 0, canvas.width, canvas.height),
-                filter = JSFilters.image.GrayscaleFilter.factory(),
-                result,
-                i;
 
-            for (i = 0; i < imageData.data.length; i += 4) {
+            var filter = JSFilters.image.GrayscaleFilter.factory(),
+                bounds = bufferedImage.getBounds(),
+                y = 0,
+                x = 0;
 
-                result = filter.filterRGB(0, 0, imageData.data[i], imageData.data[i + 1], imageData.data[i + 2]);
-                imageData.data[i] = result.r;
-                imageData.data[i + 1] = result.g;
-                imageData.data[i + 2] = result.b;
+            for (y = 0; y < bounds.height; y++) {
+                for (x = 0; x < bounds.width; x++) {
 
-            };
+                    var pix = bufferedImage.getPixel(x, y);
+                    pix = filter.filterRGB(x, y, pix);
+                    bufferedImage.setPixel(x, y, pix);
+//                    result = filter.filterRGB(0, 0, imageData.data[i], imageData.data[i + 1], imageData.data[i + 2]);
+//                    imageData.data[i] = result.r;
+//                    imageData.data[i + 1] = result.g;
+//                    imageData.data[i + 2] = result.b;
+                }
+            }
 
-            context.putImageData(imageData, 0, 0);
+//            context.putImageData(imageData, 0, 0);
 
-        };
-
-
+        }
     </script>
 </body>
 </html>
