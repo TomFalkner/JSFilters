@@ -111,7 +111,7 @@
     ImageMath.mixColors = function mixColors(interpolation, rgb1, rgb2) {
         throw new Error("Figure out how you're handling RGB values");
         // Java library stores RGB values as ints in ARGB format.
-        // Canvas store RGB in array of values from 1-255 in RGBA format
+        // Canvas stores RGB in array of values from 1-255 in RGBA format
         // Plus side, js does have bitwise operators.
 
         //Original implementation:

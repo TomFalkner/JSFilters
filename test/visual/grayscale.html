@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+</head>
+<body>
+
+    <img id="source" src="images/pdx.jpg"/>
+    <canvas width="400" height="400" id="canvas"></canvas>
+
+    <script src="build/jsfilters.js"></script>
+    <script>
+        var canvas = document.getElementById('canvas'),
+            context = canvas.getContext('2d'),
+            source = document.getElementById('source');
+
+        context.drawImage(source, 0, 0);
+        testFilter();
+
+        function testFilter() {
+            var imageData = context.getImageData(0, 0, canvas.width, canvas.height),
+                filter = JSFilters.image.GrayscaleFilter.factory(),
+                result,
+                i;
+
+            for (i = 0; i < imageData.data.length; i += 4) {
+
+                result = filter.filterRGB(0, 0, imageData.data[i], imageData.data[i + 1], imageData.data[i + 2]);
+                imageData.data[i] = result.r;
+                imageData.data[i + 1] = result.g;
+                imageData.data[i + 2] = result.b;
+
+            };
+
+            context.putImageData(imageData, 0, 0);
+
+        };
+
+
+    </script>
+</body>
+</html>
